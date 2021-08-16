@@ -824,7 +824,6 @@ var applyCustomConfig = (function(){
             var literalMatch = !!block["buildSettings"][item.name],
                 quotedMatch = !!block["buildSettings"][quoteEscape(item.name)],
                 match = literalMatch || quotedMatch;
-
             if((match || mode === "add") &&
                 (!item.buildType || item.buildType.toLowerCase() === block['name'].toLowerCase())){
 
@@ -835,11 +834,16 @@ var applyCustomConfig = (function(){
                     // adding
                     name = (item.quote && (item.quote === "none" || item.quote === "value")) ? item.name : quoteEscape(item.name);
                 }
-                var value = (item.quote && (item.quote === "none" || item.quote === "key")) ? item.value : quoteEscape(item.value);
+                if (item.mode === 'delete') {
+                    delete block["buildSettings"][name];
+                    logger.verbose(mode+" XCBuildConfiguration key={ "+name+" } for build type='"+block['name']+"' in block='"+blockName+"'");
+                } else {
+                    var value = (item.quote && (item.quote === "none" || item.quote === "key")) ? item.value : quoteEscape(item.value);
 
-                block["buildSettings"][name] = value;
+                    block["buildSettings"][name] = value;
+                    logger.verbose(mode+" XCBuildConfiguration key={ "+name+" } to value={ "+value+" } for build type='"+block['name']+"' in block='"+blockName+"'");
+                }
                 modified = true;
-                logger.verbose(mode+" XCBuildConfiguration key={ "+name+" } to value={ "+value+" } for build type='"+block['name']+"' in block='"+blockName+"'");
             }
         }
         return modified;
