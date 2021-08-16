@@ -313,6 +313,9 @@ var applyCustomConfig = (function(){
                         name: parts[2],
                         value: preference.attrib.value
                     };
+                if(preference.attrib.delete){
+                    prefData["delete"] = preference.attrib.delete;
+                }
                 if(preference.attrib.buildType){
                     prefData["buildType"] = preference.attrib.buildType;
                 }
@@ -836,7 +839,7 @@ var applyCustomConfig = (function(){
                 }
                 if (item.delete === 'true') {
                     delete block["buildSettings"][name];
-                    logger.verbose(mode+" XCBuildConfiguration key={ "+name+" } for build type='"+block['name']+"' in block='"+blockName+"'");
+                    logger.verbose("delete XCBuildConfiguration key={ "+name+" } for build type='"+block['name']+"' in block='"+blockName+"'");
                 } else {
                     var value = (item.quote && (item.quote === "none" || item.quote === "key")) ? item.value : quoteEscape(item.value);
 
