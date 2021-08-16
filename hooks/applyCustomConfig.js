@@ -834,7 +834,7 @@ var applyCustomConfig = (function(){
                     // adding
                     name = (item.quote && (item.quote === "none" || item.quote === "value")) ? item.name : quoteEscape(item.name);
                 }
-                if (item.mode === 'delete') {
+                if (item.delete === 'true') {
                     delete block["buildSettings"][name];
                     logger.verbose(mode+" XCBuildConfiguration key={ "+name+" } for build type='"+block['name']+"' in block='"+blockName+"'");
                 } else {
